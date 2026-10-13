@@ -1,0 +1,25 @@
+# Environment & Credentials
+.env
+.env.local
+
+# Virtual environments & Dependencies
+.venv/
+**/node_modules/
+
+# Python cache & build
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Databases & local storage
+*.db
+*.sqlite
+mimic.db
+
+# Frontend build artifacts
+frontend/dist/
+dist/
+
+# Scratch & IDE
+.tempmediaStorage/
