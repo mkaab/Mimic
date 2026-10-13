@@ -101,8 +101,12 @@ class PromptCanaryTestSuite(unittest.TestCase):
         Mimic Core prompt at step t must contain only rules learned from misses through t-1.
         Items t..N reasons must NOT exist in the prompt.
         """
+        quiz_qa = [
+            {"question": "Baseline risk question", "selected_choice": "A", "selected_text": "Take risk"},
+            {"question": "Baseline focus question", "selected_choice": "B", "selected_text": "Protect focus"}
+        ]
         mimic_state = {
-            "profile_summary": "Autonomous engineer protecting deep work.",
+            "quiz_qa": quiz_qa,
             "rules": []
         }
         
@@ -111,7 +115,7 @@ class PromptCanaryTestSuite(unittest.TestCase):
             
             messages = build_mimic_prompt(
                 blind_item=blind_item,
-                profile_summary=mimic_state["profile_summary"],
+                quiz_qa=mimic_state["quiz_qa"],
                 rules=mimic_state["rules"]
             )
             prompt_str = " ".join([m["content"] for m in messages])
@@ -127,6 +131,20 @@ class PromptCanaryTestSuite(unittest.TestCase):
                 
             # Simulate miss and update state AFTER step t
             mimic_state = learn_mimic(item, mimic_state)
+
+    def test_profile_only_prompt_has_no_rules_or_updates(self):
+        """Profile-Only arm prompt contains baseline quiz Q&A only, zero rules, zero history."""
+        quiz_qa = [
+            {"question": "Q1", "selected_choice": "A", "selected_text": "Answer 1"}
+        ]
+        for item in self.stream:
+            blind_item = {k: item[k] for k in BLIND_FIELDS if k in item}
+            from harness.arms import build_profile_only_prompt
+            messages = build_profile_only_prompt(blind_item, quiz_qa)
+            prompt_str = " ".join([m["content"] for m in messages])
+            self.assertIn("Answer 1", prompt_str)
+            self.assertNotIn("ACTIVE LEARNED HEURISTICS", prompt_str)
+            self.assertNotIn("PREVIOUS DECISIONS", prompt_str)
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

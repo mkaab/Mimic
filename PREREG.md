@@ -1,15 +1,15 @@
-# Mimic Pre-Registration Protocol & Benchmark Specification
+# Mimic Pre-Registration Protocol & Benchmark Specification (v1.1)
 
 **Date:** 2026-10-13  
 **Status:** FROZEN PRE-LABELING  
-**Git Tag:** `prereg-v1`
+**Git Tags:** `prereg-v1` (baseline), `prereg-v1.1` (verbatim Q&A & 9-arm isolation)
 
 ---
 
 ## 1. Pre-Registration Commitment
 This document establishes the pre-registered specification for evaluating Mimic's Earned Autonomy Delegation Layer.
 - **Zero Retrospective Scenario Tuning:** No scenario texts, option descriptions, search queries, or arm hyperparameters may be modified after human labeling begins or model outputs are observed.
-- **Reporting Guarantee:** Generic zero-shot, classical baseline, and perspective ensemble results will be reported exactly as observed, including all negative or neutral findings.
+- **Reporting Guarantee:** Generic zero-shot, classical baseline, profile-only, and perspective ensemble results will be reported exactly as observed, including all negative or neutral findings.
 
 ---
 
@@ -21,13 +21,27 @@ Prior to human ground-truth annotation, the following artifacts are strictly fro
 |---|---|---|
 | **Hyperparameters** | `config/arms.json` | `4c9c4332ff04163e96d6f6abcc234b33daf87b2f915cc65052ada854005ab99c` |
 | **Candidate Scenarios** | `data/unlabeled_decisions.json` | `fafec5cf457909224ab5752a14f08c9ea37979722e6d8bb6a1ab8c93cfd658a9` |
-| **User Baseline Profile** | `data/initial_state.json` | `2c3876323f4134fe9134a3e72544ccba205f40c06863df42609340a43303586d` |
-
-*Note on `data/initial_state.json`: An earlier draft placeholder was replaced with the user's live responses to the 5 baseline quiz questions (A, B, B, A, B) in commit `b29d07e` prior to freezing.*
+| **User Baseline Profile** | `data/initial_state.json` | `723732c6752067e2b96556e7533e60a08a3479f67b7e7c55c73e3aed92792e64` |
 
 ---
 
-## 3. Autonomy Gate & Evaluation Protocol
+## 3. Changes Since v1 (`prereg-v1` -> `prereg-v1.1`) and Rationale
+
+1. **Purged `profile_summary` from `initial_state.json`:**
+   - *Rationale:* The earlier draft summary contained agent-synthesized phrases ("analytical thoroughness before technical commitments", "protects deep focus over shallow networking") that could leak editorial bias into candidate decisions.
+   - *Fix:* Deleted `profile_summary` entirely. `data/initial_state.json` now stores exclusively the 5 literal quiz question stems and the user's chosen answer text verbatim. Prompts format these mechanically without editorializing.
+2. **Cold-Start Fairness (Few-Shot Parity):**
+   - Few-Shot prompt now receives the same baseline quiz Q&A as Mimic Core, plus its history. Both arms start from identical cold-start information.
+3. **Added Arm 9: Profile-Only:**
+   - Evaluates predictions using baseline quiz Q&A only, with zero learned rules and zero updates. Directly isolates the value of the online learning loop from static profiling.
+4. **Ensemble Baseline Inclusion:**
+   - Confirmed that ensemble member prompts also receive the baseline quiz Q&A.
+5. **Exact Whitelist Pinning:**
+   - Whitelist canary test pinned to exact set equality `set(blind_item.keys()) == EXPECTED_PINNED_FIELDS`, eliminating loose subset checking.
+
+---
+
+## 4. Autonomy Gate & Evaluation Protocol
 
 - **Online Prequential Stream:** For each inbound item $t \in \{1..30\}$, the model predicts blind and the gate evaluates autonomy using evidence accumulated strictly through $t-1$.
 - **Strict Whitelist Projection:** Only `BLIND_FIELDS` (`id`, `category`, `stakes`, `timestamp`, `inbound_text`, `options`, `option_semantics`, `semantic_mapping`, `requires_tavily`, `search_query`) reach predictors. Labels, choices, and reasons are hidden by default.
@@ -44,7 +58,7 @@ Prior to human ground-truth annotation, the following artifacts are strictly fro
 
 ---
 
-## 4. The 8 Evaluation Arms
+## 5. The 9 Evaluation Arms
 
 Each arm maintains its own independent state without cross-arm contamination:
 
@@ -52,17 +66,29 @@ Each arm maintains its own independent state without cross-arm contamination:
 2. **Prequential Semantic Majority:** Majority semantic choice within category through $t-1$.
 3. **Classical Logistic Regression:** Scikit-learn LogisticRegression (L2, C=1.0, seed=42) on TF-IDF (1-2 grams) + metadata fit strictly on items $1..t-1$. Restricted to `option_semantics`. Cold start fallback ($n < 5$).
 4. **Zero-Shot Plain Nemotron:** NVIDIA Nemotron 120B on Nebius Token Factory with zero profile or history.
-5. **Few-Shot Nemotron:** Nemotron 120B with full preceding history $1..t-1$ (actions and human reasons).
-6. **Mimic Core:** Frozen user profile + active heuristics learned strictly on misses through $t-1$.
-7. **Mimic + Tavily:** Mimic Core + cached web search lookup for `requires_tavily` items.
-8. **Independent Perspective Ensemble:** 7 independent Nemotron 120B calls ($T=0.8$), each with 60% rule subset, 3 nearest TF-IDF past decisions (1 dropped), and randomized option presentation. Majority vote share = confidence. Logs pairwise agreement and vote entropy.
+5. **Profile-Only Nemotron:** Nemotron 120B with baseline quiz Q&A only. Zero learned heuristics, zero updates.
+6. **Few-Shot Nemotron:** Nemotron 120B with baseline quiz Q&A + full preceding history $1..t-1$ (actions and human reasons).
+7. **Mimic Core:** Baseline quiz Q&A + active heuristics learned strictly on misses through $t-1$.
+8. **Mimic + Tavily:** Mimic Core + cached web search lookup for `requires_tavily` items.
+9. **Independent Perspective Ensemble:** 7 independent Nemotron 120B calls ($T=0.8$), each with baseline quiz Q&A, 60% rule subset, 3 nearest TF-IDF past decisions (1 dropped), and randomized option presentation. Majority vote share = confidence. Logs pairwise agreement and vote entropy.
 
 ---
 
-## 5. Verification Status
-All 14 invariants and leak canaries pass in local test suite (`Ran 14 tests in 0.08s, OK`):
-- Whitelist projection sanitization
+## 6. Pre-Registered Primary Hypotheses
+
+- **H1 (Earned Autonomy Calibration):** Mimic's Wilson gate will achieve auto-execute precision $\ge 90\%$ on auto-executed items, preventing delegation failures.
+- **H2 (Learning Loop Value):** Mimic Core will achieve higher AUROC and auto-execute precision than Profile-Only, proving the online learning loop provides value over static profiling.
+- **H3 (Perspective Ensemble Uncertainty):** Perspective Ensemble will yield higher AUROC than plain sampling by capturing diverse perspective uncertainty rather than pseudo-agreement.
+- **H4 (Tavily Grounding Lift):** Mimic + Tavily will show measurable precision delta over Mimic Core on external commitment items requiring web verification.
+- **H5 (Zero-Shot Baseline):** Zero-shot performance will be reported as observed; high generic zero-shot accuracy will be discussed openly without scenario tuning.
+
+---
+
+## 7. Verification Status
+All 15 invariants and leak canaries pass in local test suite (`Ran 15 tests in 0.14s, OK`):
+- Whitelist projection sanitization (pinned exact set)
 - Label-flip canary (bit-for-bit invariance on step $t$)
 - Classical fit-set isolation & determinism
 - Real-arm prompt canaries (zero items $\ge t$, zero cross-member leakage)
 - Wilson score mathematical boundaries
+- AUROC edge case handling & bootstrap CI

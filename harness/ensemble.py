@@ -18,7 +18,7 @@ import math
 import random
 import hashlib
 from collections import Counter
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Optional
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -58,7 +58,7 @@ def retrieve_nearest_examples(
 
 def build_member_prompt(
     blind_item: Dict[str, Any],
-    profile_summary: str,
+    quiz_qa: Optional[List[Dict[str, str]]],
     rules: List[str],
     history: List[Dict[str, Any]],
     member_idx: int,
@@ -123,14 +123,18 @@ def build_member_prompt(
         )
     ex_text = "\n\n".join(example_blocks) if example_blocks else "No reference cases."
 
+    quiz_block = "No baseline quiz data."
+    if quiz_qa:
+        quiz_block = "\n\n".join([f"Q{i}: {x.get('question', '')}\nAnswer: {x.get('selected_text', '')}" for i, x in enumerate(quiz_qa, start=1)])
+
     system_msg = (
         "You are an expert delegation assistant on an autonomous decision committee.\n"
-        "Evaluate the inbound situation based on the user profile, active heuristics, and precedent.\n"
+        "Evaluate the inbound situation based on baseline decision style, active heuristics, and precedent.\n"
         "Respond with ONLY the single letter 'A' or 'B'."
     )
 
     user_msg = (
-        f"=== USER PROFILE ===\n{profile_summary}\n\n"
+        f"=== BASELINE WORK & DECISION STYLE (Quiz Q&A) ===\n{quiz_block}\n\n"
         f"=== RELEVANT HEURISTICS ===\n{rules_block}\n\n"
         f"=== PRECEDENT CASES ===\n{ex_text}\n\n"
         f"=== NEW INBOUND SITUATION ===\n"

@@ -1,12 +1,31 @@
 {
-  "profile_summary": "High-agency technical builder with an appetite for calculated asymmetric risks, paired with analytical thoroughness before technical commitments. Strongly protects deep focus and personal energy over shallow networking. Immediate and direct on intellectual attribution and boundaries in professional settings, while supportive and empathetic when mentoring or collaborating with peers.",
-  "quiz_answers": {
-    "q1_risk": "A (Take high-upside risk with 40% fail chance)",
-    "q2_analysis": "B (Spend evening thoroughly analyzing reviews)",
-    "q3_social": "B (Stay in or see close friend; protect focus)",
-    "q4_boundaries": "A (Call out attribution breach on the spot)",
-    "q5_feedback": "B (Encourage and soften feedback for peers)"
-  },
+  "quiz_qa": [
+    {
+      "question": "An opportunity with huge upside lands in your lap, but there's a 40% chance it fails.",
+      "selected_choice": "A",
+      "selected_text": "Take it"
+    },
+    {
+      "question": "You need a new laptop and two options look equally good.",
+      "selected_choice": "B",
+      "selected_text": "Spend the evening reading reviews"
+    },
+    {
+      "question": "It's Friday night and you're free.",
+      "selected_choice": "B",
+      "selected_text": "Stay in or see one close friend"
+    },
+    {
+      "question": "A coworker presents your idea as theirs in a meeting.",
+      "selected_choice": "A",
+      "selected_text": "Call it out on the spot"
+    },
+    {
+      "question": "A friend asks what you honestly think of their startup idea. You think it's weak.",
+      "selected_choice": "B",
+      "selected_text": "Encourage them and soften it"
+    }
+  ],
   "rules": [],
-  "provenance": "Genuine baseline derived directly from user's live responses to the 5 baseline quiz questions; frozen prior to labeling candidate stream."
+  "provenance": "Verbatim user answers to the 5 baseline behavioral quiz questions. Strictly mechanical question-and-answer pairs without agent summary or inference."
 }

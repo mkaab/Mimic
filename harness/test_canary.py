@@ -69,7 +69,21 @@ class CanaryTestSuite(unittest.TestCase):
         self.assertFalse(is_auto_low_conf, "Confidence < 0.70 must veto auto-execution")
 
     def test_whitelist_projection_sanitizes_inputs(self):
-        """Ensures predict_fn strictly receives BLIND_FIELDS and no leaked labels or metadata."""
+        """Ensures predict_fn strictly receives the exact pinned BLIND_FIELDS set and zero leaked fields."""
+        EXPECTED_PINNED_FIELDS = frozenset({
+            "id",
+            "category",
+            "stakes",
+            "timestamp",
+            "inbound_text",
+            "options",
+            "option_semantics",
+            "semantic_mapping",
+            "requires_tavily",
+            "search_query"
+        })
+        self.assertEqual(BLIND_FIELDS, EXPECTED_PINNED_FIELDS, "BLIND_FIELDS definition has drifted from pinned spec")
+
         leaky_item = {
             "id": "dec_001",
             "category": "calendar",
@@ -77,6 +91,8 @@ class CanaryTestSuite(unittest.TestCase):
             "timestamp": "2026-09-01T10:00:00Z",
             "inbound_text": "Meeting invite",
             "options": {"A": "Decline", "B": "Accept"},
+            "option_semantics": ["accept", "decline"],
+            "semantic_mapping": {"A": "decline", "B": "accept"},
             "requires_tavily": False,
             "search_query": "",
             # Leak vectors that must be stripped:
@@ -93,7 +109,7 @@ class CanaryTestSuite(unittest.TestCase):
         def inspecting_predict(blind_item, state):
             nonlocal received_keys
             received_keys = list(blind_item.keys())
-            self.assertTrue(set(blind_item.keys()).issubset(BLIND_FIELDS))
+            self.assertEqual(set(blind_item.keys()), EXPECTED_PINNED_FIELDS)
             self.assertNotIn("ground_truth_choice", blind_item)
             self.assertNotIn("ground_truth_action", blind_item)
             self.assertNotIn("relabel_choice", blind_item)
@@ -104,7 +120,7 @@ class CanaryTestSuite(unittest.TestCase):
 
         report = run_prequential_loop([leaky_item], inspecting_predict, lambda item, s: s, {})
         self.assertEqual(len(report.log), 1)
-        self.assertTrue(set(received_keys).issubset(BLIND_FIELDS))
+        self.assertEqual(set(received_keys), EXPECTED_PINNED_FIELDS)
 
     def test_label_flip_canary(self):
         """

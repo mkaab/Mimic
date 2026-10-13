@@ -12,7 +12,7 @@ Defines the 6 benchmark arms:
 All prompt builders strictly consume blind_item (projected via BLIND_FIELDS) and historical state.
 """
 
-from typing import Dict, Any, List, Tuple
+from typing import Dict, Any, List, Tuple, Optional
 import copy
 
 def build_zero_shot_prompt(blind_item: Dict[str, Any]) -> List[Dict[str, str]]:
@@ -37,14 +37,27 @@ def build_zero_shot_prompt(blind_item: Dict[str, Any]) -> List[Dict[str, str]]:
         {"role": "user", "content": user_msg}
     ]
 
-def build_few_shot_prompt(blind_item: Dict[str, Any], history: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+def format_quiz_qa(quiz_qa: List[Dict[str, str]]) -> str:
+    """Mechanically formats baseline behavioral quiz question-answer pairs without editorial commentary."""
+    if not quiz_qa:
+        return "No baseline quiz data."
+    lines = []
+    for idx, item in enumerate(quiz_qa, start=1):
+        lines.append(f"Q{idx}: {item.get('question', '')}\nAnswer: {item.get('selected_text', '')}")
+    return "\n\n".join(lines)
+
+def build_few_shot_prompt(
+    blind_item: Dict[str, Any],
+    history: List[Dict[str, Any]],
+    quiz_qa: Optional[List[Dict[str, str]]] = None
+) -> List[Dict[str, str]]:
     """
     Builds prompt for Few-Shot Nemotron.
-    Contains preceding items strictly 1..t-1 with revealed choices and reasons.
+    Contains baseline quiz Q&A (equal cold-start information) + preceding items 1..t-1.
     """
     system_msg = (
         "You are an AI decision engine assisting a busy software engineer and founder.\n"
-        "You have observed previous decisions and the user's explicit reasoning.\n"
+        "You have observed the user's baseline decision style, previous decisions, and explicit reasoning.\n"
         "Study the historical decisions below, then predict the correct action (A or B) for the new item.\n"
         "Respond with ONLY the single letter 'A' or 'B'."
     )
@@ -65,9 +78,12 @@ def build_few_shot_prompt(blind_item: Dict[str, Any], history: List[Dict[str, An
     
     history_text = "\n\n".join(history_blocks) if history_blocks else "No prior history."
     
-    user_msg = (
-        f"=== PREVIOUS DECISIONS (t-1 Context) ===\n"
-        f"{history_text}\n\n"
+    user_blocks = []
+    if quiz_qa:
+        user_blocks.append(f"=== BASELINE WORK & DECISION STYLE (Quiz Q&A) ===\n{format_quiz_qa(quiz_qa)}\n")
+        
+    user_blocks.append(f"=== PREVIOUS DECISIONS (t-1 Context) ===\n{history_text}\n")
+    user_blocks.append(
         f"=== NEW DECISION TO PREDICT ===\n"
         f"Category: {blind_item.get('category', '').upper()}\n"
         f"Stakes: {blind_item.get('stakes', '').upper()}\n\n"
@@ -79,31 +95,66 @@ def build_few_shot_prompt(blind_item: Dict[str, Any], history: List[Dict[str, An
     )
     return [
         {"role": "system", "content": system_msg},
-        {"role": "user", "content": user_msg}
+        {"role": "user", "content": "\n".join(user_blocks)}
+    ]
+
+def build_profile_only_prompt(
+    blind_item: Dict[str, Any],
+    quiz_qa: List[Dict[str, str]],
+    web_context: str = ""
+) -> List[Dict[str, str]]:
+    """
+    Builds prompt for Profile-Only arm.
+    Contains baseline quiz Q&A only; zero learned heuristics, zero updates.
+    Isolates the value of the cold-start profile vs the online learning loop.
+    """
+    system_msg = (
+        "You are an AI decision engine representing the user's judgment.\n"
+        "Follow the user's baseline decision style strictly.\n"
+        "Respond with ONLY the single letter 'A' or 'B'."
+    )
+    user_content = [
+        f"=== BASELINE WORK & DECISION STYLE (Quiz Q&A) ===\n{format_quiz_qa(quiz_qa)}\n"
+    ]
+    if web_context:
+        user_content.append(f"=== VERIFIED WEB RESEARCH (Tavily) ===\n{web_context}\n")
+        
+    user_content.append(
+        f"=== NEW DECISION ===\n"
+        f"Category: {blind_item.get('category', '').upper()}\n"
+        f"Stakes: {blind_item.get('stakes', '').upper()}\n\n"
+        f"Inbound Context:\n\"{blind_item.get('inbound_text', '')}\"\n\n"
+        f"Options:\n"
+        f"A) {blind_item.get('options', {}).get('A', '')}\n"
+        f"B) {blind_item.get('options', {}).get('B', '')}\n\n"
+        f"Which option represents the user's judgment? (A/B):"
+    )
+    return [
+        {"role": "system", "content": system_msg},
+        {"role": "user", "content": "\n".join(user_content)}
     ]
 
 def build_mimic_prompt(
     blind_item: Dict[str, Any],
-    profile_summary: str,
+    quiz_qa: List[Dict[str, str]],
     rules: List[str],
     web_context: str = ""
 ) -> List[Dict[str, str]]:
     """
     Builds prompt for Mimic Core and Mimic + Tavily.
-    Uses frozen user profile + rules learned only from prior misses 1..t-1.
+    Uses baseline quiz Q&A + rules learned only from prior misses 1..t-1.
     """
     system_msg = (
         "You are Mimic, an earned autonomy personal AI assistant.\n"
         "You represent the user's exact judgment architecture.\n"
-        "Follow the user profile and active learned heuristics strictly.\n"
+        "Follow the baseline decision style and active learned heuristics strictly.\n"
         "Respond with ONLY the single letter 'A' or 'B'."
     )
     rules_text = "\n".join([f"- {r}" for r in rules]) if rules else "No learned rules yet."
     
     user_content = [
-        f"=== USER JUDGMENT ARCHITECTURE ===",
-        f"Profile: {profile_summary}\n",
-        f"Active Learned Heuristics:\n{rules_text}\n"
+        f"=== BASELINE WORK & DECISION STYLE (Quiz Q&A) ===\n{format_quiz_qa(quiz_qa)}\n",
+        f"=== ACTIVE LEARNED HEURISTICS ===\n{rules_text}\n"
     ]
     
     if web_context:

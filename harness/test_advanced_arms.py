@@ -135,7 +135,7 @@ class AdvancedArmsTestSuite(unittest.TestCase):
         for j in range(7):
             messages, m_map = build_member_prompt(
                 blind_item=blind_item,
-                profile_summary="Autonomous builder.",
+                quiz_qa=[{"question": "Q1", "selected_choice": "A", "selected_text": "Answer 1"}],
                 rules=rules,
                 history=history,
                 member_idx=j
