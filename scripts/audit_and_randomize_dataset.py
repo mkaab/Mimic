@@ -502,6 +502,7 @@ for item in RAW_SCENARIOS:
         "requires_tavily": item["requires_tavily"],
         "search_query": item["search_query"],
         "options": options_dict,
+        "option_semantics": sorted(list(set(semantic_key_map.values()))),
         "semantic_mapping": semantic_key_map,
         "synthetic": item["synthetic"]
     })

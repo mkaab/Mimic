@@ -58,6 +58,7 @@ BLIND_FIELDS = frozenset({
     "timestamp",
     "inbound_text",
     "options",
+    "option_semantics",
     "semantic_mapping",
     "requires_tavily",
     "search_query"

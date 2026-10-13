@@ -11,6 +11,10 @@
       "A": "Accept meeting invite",
       "B": "Decline meeting invite"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -29,6 +33,10 @@
       "A": "Reply requesting one-pager",
       "B": "Archive email"
     },
+    "option_semantics": [
+      "archive",
+      "reply"
+    ],
     "semantic_mapping": {
       "A": "reply",
       "B": "archive"
@@ -47,6 +55,10 @@
       "A": "Decline and request async comments",
       "B": "Accept review meeting"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -65,6 +77,10 @@
       "A": "Decline panel invitation",
       "B": "Accept panel invitation"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -83,6 +99,10 @@
       "A": "Accept social check-in",
       "B": "Decline social check-in"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -101,6 +121,10 @@
       "A": "Accept introduction",
       "B": "Decline introduction"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -119,6 +143,10 @@
       "A": "Accept advisory offer",
       "B": "Decline advisory offer"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -137,6 +165,10 @@
       "A": "Redirect to PR comments",
       "B": "Accept check-in meeting"
     },
+    "option_semantics": [
+      "accept",
+      "redirect"
+    ],
     "semantic_mapping": {
       "A": "redirect",
       "B": "accept"
@@ -155,6 +187,10 @@
       "A": "Mark notification as read",
       "B": "Review and terminate idle instances"
     },
+    "option_semantics": [
+      "archive",
+      "review"
+    ],
     "semantic_mapping": {
       "A": "archive",
       "B": "review"
@@ -173,6 +209,10 @@
       "A": "Decline consulting project",
       "B": "Accept consulting contract"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -191,6 +231,10 @@
       "A": "Decline exploratory call",
       "B": "Accept exploratory call"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -209,6 +253,10 @@
       "A": "Review and merge PR promptly",
       "B": "Snooze review for later"
     },
+    "option_semantics": [
+      "review",
+      "snooze"
+    ],
     "semantic_mapping": {
       "A": "review",
       "B": "snooze"
@@ -227,6 +275,10 @@
       "A": "Remain at main desk",
       "B": "Book quiet booth or work remotely"
     },
+    "option_semantics": [
+      "booth",
+      "remain"
+    ],
     "semantic_mapping": {
       "A": "remain",
       "B": "booth"
@@ -245,6 +297,10 @@
       "A": "Decline term sheet",
       "B": "Sign term sheet"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -263,6 +319,10 @@
       "A": "Accept podcast invitation",
       "B": "Decline podcast invitation"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -281,6 +341,10 @@
       "A": "Agree to provide reference call",
       "B": "Decline reference call"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -299,6 +363,10 @@
       "A": "Reschedule demo meeting",
       "B": "Accept demo meeting"
     },
+    "option_semantics": [
+      "accept",
+      "reschedule"
+    ],
     "semantic_mapping": {
       "A": "reschedule",
       "B": "accept"
@@ -317,6 +385,10 @@
       "A": "Purchase virtual pass ($150)",
       "B": "Archive email and skip summit"
     },
+    "option_semantics": [
+      "archive",
+      "purchase"
+    ],
     "semantic_mapping": {
       "A": "purchase",
       "B": "archive"
@@ -335,6 +407,10 @@
       "A": "Accept guest lecture",
       "B": "Decline guest lecture"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -353,6 +429,10 @@
       "A": "Defer or snooze call",
       "B": "Accept compliance call"
     },
+    "option_semantics": [
+      "accept",
+      "delay"
+    ],
     "semantic_mapping": {
       "A": "delay",
       "B": "accept"
@@ -371,6 +451,10 @@
       "A": "Schedule intro pitch call",
       "B": "Decline marketing retainer"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -389,6 +473,10 @@
       "A": "Proceed with pilot negotiation",
       "B": "Decline exclusivity proposal"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -407,6 +495,10 @@
       "A": "Decline lunch invite",
       "B": "Accept lunch invite"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -425,6 +517,10 @@
       "A": "Delete confirmation email",
       "B": "Confirm subscription"
     },
+    "option_semantics": [
+      "confirm",
+      "delete"
+    ],
     "semantic_mapping": {
       "A": "delete",
       "B": "confirm"
@@ -443,6 +539,10 @@
       "A": "Accept architecture consultation",
       "B": "Decline architecture consultation"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"
@@ -461,6 +561,10 @@
       "A": "Archive notification",
       "B": "Acknowledge and file bug in tracker"
     },
+    "option_semantics": [
+      "acknowledge",
+      "archive"
+    ],
     "semantic_mapping": {
       "A": "archive",
       "B": "acknowledge"
@@ -479,6 +583,10 @@
       "A": "Decline co-authoring invitation",
       "B": "Accept co-authoring invitation"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -497,6 +605,10 @@
       "A": "Decline renewal call",
       "B": "Accept renewal call"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "decline",
       "B": "accept"
@@ -515,6 +627,10 @@
       "A": "Deploy dependency patch release",
       "B": "Defer to next scheduled audit"
     },
+    "option_semantics": [
+      "defer",
+      "deploy"
+    ],
     "semantic_mapping": {
       "A": "deploy",
       "B": "defer"
@@ -533,6 +649,10 @@
       "A": "Commit $5,000 angel check",
       "B": "Decline angel investment allocation"
     },
+    "option_semantics": [
+      "accept",
+      "decline"
+    ],
     "semantic_mapping": {
       "A": "accept",
       "B": "decline"

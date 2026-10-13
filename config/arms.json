@@ -1,0 +1,28 @@
+{
+  "classical": {
+    "model": "logreg",
+    "C": 1.0,
+    "penalty": "l2",
+    "tfidf_max_features": 500,
+    "ngram_range": [1, 2],
+    "min_train_per_category": 5,
+    "seed": 42
+  },
+  "ensemble": {
+    "k": 7,
+    "temperature": 0.8,
+    "rule_subset_frac": 0.6,
+    "nearest_examples": 3,
+    "drop_one_example": true,
+    "shuffle_options": true
+  },
+  "gate": {
+    "z": 1.645,
+    "thresholds": {
+      "low": 0.65,
+      "medium": 0.70,
+      "high": 0.85
+    },
+    "min_conf": 0.70
+  }
+}
