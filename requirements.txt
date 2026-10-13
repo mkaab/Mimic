@@ -1,0 +1,17 @@
+# Mimic Evaluation & API Dependencies (Pinned Versions)
+scikit-learn==1.9.1
+scipy==1.18.1
+numpy==2.3.3
+fastapi==0.142.2
+uvicorn==0.54.0
+openai==3.24.0
+pydantic==2.13.5
+aiosqlite==0.22.1
+tavily-python==0.8.5
+python-dotenv==1.2.4
+httpx==0.28.1
+joblib==1.6.0
+narwhals==2.27.1
+threadpoolctl==3.7.0
+cloudpickle==3.1.2
+tiktoken==0.14.0
