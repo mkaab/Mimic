@@ -118,3 +118,24 @@ npm run dev
 3. **Visible Learning (0:45 - 1:15)**: On the missed card, click **"🧠 Teach Mimic"**, type a reason, and click **"Test If Mimic Flips Choice"**. Show the new rule card and the flipped verdict (`✓ Verified`).
 4. **Tavily Grounded Engine (1:15 - 1:45)**: Click *"Test on live opportunities with Tavily →"*, select *⚡ Join AI agent lab vs Big Tech*. Point out the 3 panels: Live Web Facts (Tavily), Personal Implications (Mimic Persona), and Personalized Prediction vs Generic AI.
 5. **Closing (1:45 - 2:00)**: *"Before agents act on our behalf, they need a model of us. That model is Mimic."*
+
+---
+
+## 7. Earned Autonomy Evaluation & Benchmark Protocol
+
+### Pre-Registered Evaluation Constraints
+1. **No Retrospective Scenario Tuning**: Zero candidate scenarios or options may be edited after model evaluation begins. All zero-shot scores will be reported exactly as observed.
+2. **Prequential (Online) Stream**: Prediction and gate evaluation for decision $t$ consume evidence strictly accumulated through $t-1$.
+3. **Strict Whitelist Projection**: `BLIND_FIELDS` hides labels, human reasons, and semantic choices from models by default.
+4. **Leak Canaries**:
+   - `harness/test_canary.py`: Label-flip canary verifies bit-for-bit invariance of $t$'s prediction, confidence, gate, and Wilson bound.
+   - `harness/test_prompt_canary.py`: Asserts real arm prompts contain zero tokens/IDs from items $\ge t$.
+5. **A/B Position Bias Elimination**: Presentation order randomized per item via seeded shuffle (`seed=42`); choices tracked semantically (`semantic_choice`).
+6. **Isolated Benchmark Arms**:
+   - Arm 1: Always-First Option (Position Bias Sanity Baseline)
+   - Arm 2: Prequential Semantic Majority
+   - Arm 3: Zero-Shot Plain Nemotron (120B)
+   - Arm 4: Few-Shot Nemotron (120B with $1..t-1$ context)
+   - Arm 5: Mimic Core (Frozen profile + rules learned only on misses)
+   - Arm 6: Mimic + Tavily (Cached web lookup on search items)
+

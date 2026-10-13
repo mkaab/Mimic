@@ -1,5 +1,12 @@
 {
-  "profile_summary": "Autonomous software engineer and founder. Prioritizes unbroken deep work blocks, rigorous asynchronous engineering reviews, and high-impact technical initiatives. Declines low-context introductory meetings and unfocused pitches. Protects personal focus and project runway.",
+  "profile_summary": "High-agency technical builder with an appetite for calculated asymmetric risks, paired with analytical thoroughness before technical commitments. Strongly protects deep focus and personal energy over shallow networking. Immediate and direct on intellectual attribution and boundaries in professional settings, while supportive and empathetic when mentoring or collaborating with peers.",
+  "quiz_answers": {
+    "q1_risk": "A (Take high-upside risk with 40% fail chance)",
+    "q2_analysis": "B (Spend evening thoroughly analyzing reviews)",
+    "q3_social": "B (Stay in or see close friend; protect focus)",
+    "q4_boundaries": "A (Call out attribution breach on the spot)",
+    "q5_feedback": "B (Encourage and soften feedback for peers)"
+  },
   "rules": [],
-  "provenance": "Frozen baseline derived strictly from behavioral quiz answers; independent of candidate stream."
+  "provenance": "Genuine baseline derived directly from user's live responses to the 5 baseline quiz questions; frozen prior to labeling candidate stream."
 }
