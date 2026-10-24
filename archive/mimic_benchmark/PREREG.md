@@ -74,13 +74,21 @@ Each arm maintains its own independent state without cross-arm contamination:
 
 ---
 
-## 6. Pre-Registered Primary Hypotheses
+## 6. Pre-Registered Hypotheses & Comparison Protocol
 
-- **H1 (Earned Autonomy Calibration):** Mimic's Wilson gate will achieve auto-execute precision $\ge 90\%$ on auto-executed items, preventing delegation failures.
-- **H2 (Learning Loop Value):** Mimic Core will achieve higher AUROC and auto-execute precision than Profile-Only, proving the online learning loop provides value over static profiling.
-- **H3 (Perspective Ensemble Uncertainty):** Perspective Ensemble will yield higher AUROC than plain sampling by capturing diverse perspective uncertainty rather than pseudo-agreement.
-- **H4 (Tavily Grounding Lift):** Mimic + Tavily will show measurable precision delta over Mimic Core on external commitment items requiring web verification.
-- **H5 (Zero-Shot Baseline):** Zero-shot performance will be reported as observed; high generic zero-shot accuracy will be discussed openly without scenario tuning.
+### A. Primary Comparisons (Capped at Two)
+
+1. **Primary Comparison 1 (Mimic Core vs. Few-Shot — Distillation vs. Context Stuffing):**
+   - **Hypothesis:** Structured, miss-driven heuristic rule extraction (Mimic Core) will match or exceed raw uncompressed context history (Few-Shot) in prequential accuracy and calibration (Brier score), while preventing prompt bloat and recency degradation.
+2. **Primary Comparison 2 (Mimic Core vs. Profile-Only — Online Learning Value):**
+   - **Hypothesis:** Mimic Core will achieve superior prequential accuracy, AUROC, and auto-execute precision compared to Profile-Only, demonstrating that the prequential miss-driven reflection loop adds measurable marginal value over a static user profile.
+
+### B. Exploratory Comparisons & Analyses
+
+- **Exploratory 1 (Earned Autonomy Calibration):** Mimic's Wilson lower-bound gate will maintain $\ge 90\%$ precision on auto-executed decisions across categories and stakes, ensuring safe autonomous delegation.
+- **Exploratory 2 (Perspective Ensemble Uncertainty):** Independent Perspective Ensemble (7 diverse viewpoints) will yield superior uncertainty discrimination (higher AUROC) and well-calibrated confidence through empirical vote entropy and pairwise agreement compared to single-sample estimation.
+- **Exploratory 3 (Tavily Grounding Lift):** Web search retrieval (Mimic + Tavily) will provide positive precision delta over ungrounded Mimic Core specifically on commitment items requiring live external verification (`requires_tavily == true`).
+- **Exploratory 4 (Classical & Heuristic Baselines):** Performance of Classical Logistic Regression, Prequential Semantic Majority, Zero-Shot Plain Nemotron, and Always-First Option (position bias control) will be reported as observed to establish task floor and control metrics.
 
 ---
 

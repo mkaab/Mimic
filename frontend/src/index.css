@@ -1,9 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 @import "@heroui/styles";
 
+:root {
+  --elden-obsidian: #08090a;
+  --elden-slate: #0f1115;
+  --elden-card: #14171d;
+  --elden-card-hover: #1a1e26;
+  --elden-gold: #c5a059;
+  --elden-gold-light: #e6ca85;
+  --elden-gold-dim: #7a6336;
+  --elden-gold-border: rgba(197, 160, 89, 0.22);
+  --elden-rot: #9e2a2b;
+  --elden-rot-light: #e05252;
+  --elden-rot-bg: rgba(158, 42, 43, 0.15);
+  --elden-grace: #d4af37;
+  --elden-grace-bg: rgba(212, 175, 55, 0.12);
+}
+
 body {
   margin: 0;
-  background-color: #000;
-  color: #fff;
-  font-family: 'Inter', sans-serif;
+  background-color: var(--elden-obsidian);
+  color: #e4e7eb;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 10% 20%, rgba(15, 17, 21, 0.8) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(197, 160, 89, 0.04) 0%, transparent 40%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.04em;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Elden Ring Minimalist Styling Classes */
+.elden-border {
+  border: 1px solid var(--elden-gold-border);
+}
+
+.elden-card {
+  background: linear-gradient(180deg, rgba(20, 23, 29, 0.95) 0%, rgba(15, 17, 21, 0.98) 100%);
+  border: 1px solid var(--elden-gold-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(197, 160, 89, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+.elden-card-rot {
+  background: linear-gradient(180deg, rgba(28, 16, 17, 0.95) 0%, rgba(18, 11, 12, 0.98) 100%);
+  border: 1px solid rgba(224, 82, 82, 0.35);
+  box-shadow: 0 4px 24px rgba(158, 42, 43, 0.2), inset 0 1px 0 rgba(224, 82, 82, 0.15);
+}
+
+.elden-card-grace {
+  background: linear-gradient(180deg, rgba(26, 23, 16, 0.95) 0%, rgba(17, 15, 10, 0.98) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 4px 28px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(230, 202, 133, 0.2);
+}
+
+.elden-glow-gold {
+  box-shadow: 0 0 20px rgba(197, 160, 89, 0.25);
+}
+
+.elden-sigil {
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090a0c;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2e38;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c5a059;
 }

@@ -1,0 +1,90 @@
+{
+  "presets": [
+    {
+      "id": "sales_cs_handoff",
+      "title": "B2B Sales-to-Client Onboarding Handoff",
+      "company_name": "Aether Dynamics",
+      "industry": "B2B SaaS & Services",
+      "company_size": "85 employees ($18M ARR)",
+      "target_workflow": "Closing enterprise deals in CRM through project kickoff and onboarding",
+      "executive_mandate": "Automate sales-to-client onboarding to reduce time-to-value from 14 days down to 24 hours.",
+      "stakeholders": [
+        {
+          "role_id": "ceo",
+          "name": "David",
+          "title": "Chief Executive Officer",
+          "mandate": "Drive ARR growth and maintain <14 day client time-to-value",
+          "initial_statement": "Once a contract is signed in DocuSign, HubSpot automatically creates an onboarding ticket in Jira. Customer Success takes over within 24 hours, conducts a standard discovery call, and provisions the workspace. It's a clean, automated digital pipeline.",
+          "tactical_probe_strategy": "Do not challenge their vision directly; probe what happens when custom tiers or non-standard contracts stall downstream."
+        },
+        {
+          "role_id": "sales_ae",
+          "name": "Marcus",
+          "title": "Senior Enterprise AE",
+          "mandate": "Close enterprise deals and hit quarterly quota",
+          "initial_statement": "To get enterprise logos over the line, I almost always promise custom SLA add-ons, tailored reporting formats, or accelerated phase-1 milestones over WhatsApp and Zoom. I don't enter those in HubSpot because there are no fields for custom promises, and standard templates scare prospects away.",
+          "tactical_probe_strategy": "Never ask if they violate SOPs; ask what custom promises they have to make to hit quota and where they record them so they don't forget."
+        },
+        {
+          "role_id": "cs_lead",
+          "name": "Priya",
+          "title": "VP of Customer Success",
+          "mandate": "Ensure successful adoption and prevent early churn",
+          "initial_statement": "We never look at the HubSpot ticket. Half the time, the client shows up on the kickoff call expecting features or timelines we never agreed to deliver. I have an unwritten rule: my team has to schedule an internal 30-minute 'grill the sales rep' interrogation before we ever send the welcome email to the client.",
+          "tactical_probe_strategy": "Probe the exact moment client expectations diverge on kickoff calls and how her team scrambles in private channels to resolve it."
+        },
+        {
+          "role_id": "revops",
+          "name": "Tariq",
+          "title": "Director of RevOps",
+          "mandate": "Keep HubSpot, Jira, and billing aligned",
+          "initial_statement": "The automated HubSpot-to-Jira webhook fails roughly 40% of the time because enterprise deals have irregular line items that break the schema. My junior analyst manually backfills deal records every Friday afternoon so billing can invoice on the 1st of the month.",
+          "tactical_probe_strategy": "Probe the unwritten exceptions, the Friday backfill spreadsheets, and what adjacent workflows in billing create recurring manual friction."
+        }
+      ]
+    },
+    {
+      "id": "procurement_ap_reconciliation",
+      "title": "Vendor Invoicing & AP Reconciliation",
+      "company_name": "Apex Logistics Group",
+      "industry": "Supply Chain & Fleet Operations",
+      "company_size": "260 employees ($65M Revenue)",
+      "target_workflow": "Vendor purchase order issuance, delivery note verification, and invoice payment",
+      "executive_mandate": "Deploy autonomous agents to match vendor invoices against ERP purchase orders to eliminate manual entry.",
+      "stakeholders": [
+        {
+          "role_id": "cfo",
+          "name": "Elena",
+          "title": "Chief Financial Officer",
+          "mandate": "Ensure strict financial compliance and working capital predictability",
+          "initial_statement": "All vendor procurement adheres to 3-way matching in our ERP. The site creates a PO, the vendor submits an invoice through the vendor portal with the PO number, warehouse logs the goods receipt, and payments are released net-30 automatically.",
+          "tactical_probe_strategy": "Acknowledge the strict ERP policy; gently probe what happens when urgent spare parts are ordered off-system to keep fleets moving."
+        },
+        {
+          "role_id": "procurement",
+          "name": "Sami",
+          "title": "Procurement Lead",
+          "mandate": "Keep operations supplied and avoid delivery delays",
+          "initial_statement": "When suppliers change prices or substitute materials due to sudden stockouts, waiting for a formal change-order approval takes 4 days and halts work. I tell preferred vendors to proceed anyway and send price differences via WhatsApp, and we adjust PO amounts after the fact.",
+          "tactical_probe_strategy": "Validate the pressure to keep operations moving; probe how price variances and WhatsApp delivery slips get reconciled before audit."
+        },
+        {
+          "role_id": "ap_clerk",
+          "name": "Fatima",
+          "title": "Senior Accounts Payable Clerk",
+          "mandate": "Process 800+ vendor invoices monthly without duplicate payments",
+          "initial_statement": "The vendor portal is barely used; 80% of invoices arrive as scanned PDFs via email or camera photos from WhatsApp. Since invoices almost never match the original PO amounts due to mid-stream price changes, I print them out, hand-write the real quantities, and ask Sami for verbal sign-off before manual ERP entry.",
+          "tactical_probe_strategy": "Ask about the manual corrections made on physical paper and what unwritten rules dictate which invoices get pushed to the front of the queue."
+        },
+        {
+          "role_id": "it_lead",
+          "name": "Zack",
+          "title": "Lead IT Architect",
+          "mandate": "Maintain ERP stability, data security, and audit compliance",
+          "initial_statement": "Our legacy ERP crashes if external APIs or third-party bots write to the accounting tables during business hours. We have a strict security policy: direct database writes are blocked, and third-party integrations must use overnight batch CSV exports.",
+          "tactical_probe_strategy": "Probe database lock constraints, API security bans, and what clean staging tables or export windows actually exist for automation."
+        }
+      ]
+    }
+  ]
+}
