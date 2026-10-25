@@ -22,4 +22,14 @@ frontend/dist/
 dist/
 
 # Scratch & IDE
+scratch/
 .tempmediaStorage/
+.hyperframes/
+**/.hyperframes/
+
+# Video & Brag generation artifacts
+brag-output*/
+demo-video-submission/
+*.mp4
+*.mp3
+*.webp
