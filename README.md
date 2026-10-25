@@ -1,4 +1,4 @@
-# Mimic — Autonomous Operational Discovery & Alignment Engine
+# Mimic - Autonomous Operational Discovery & Alignment Engine
 
 > **Stop automating executive delusions. Discover the messy frontline reality before writing a single line of agent code.**  
 > Built for the **Nebius x NVIDIA AI Hackathon** · Powered by **Nebius Token Factory** (`nvidia/nemotron-3-super-120b-a12b`), **Tavily Search API**, and **FastMCP**.
