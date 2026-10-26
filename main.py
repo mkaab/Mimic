@@ -26,11 +26,12 @@ app.add_middleware(
 async def startup():
     await init_db()
 
-@app.get("/")
+@app.get("/api/health")
+@app.get("/health")
 def health_check():
     return {
         "status": "online",
-        "product": "Strata",
+        "product": "Mimic",
         "model": strata_engine.MODEL_NAME,
         "nebius_connected": bool(strata_engine.NEBIUS_API_KEY),
         "tavily_connected": bool(strata_engine.TAVILY_API_KEY)
@@ -186,4 +187,35 @@ async def live_interview_turn(req: LiveInterviewTurnRequest):
         return {"status": "success", **result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Production static frontend mounting (Railway / single container)
+frontend_dist = os.path.join(os.path.dirname(__file__), "frontend", "dist")
+if os.path.exists(frontend_dist):
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse, JSONResponse
+    from fastapi import Request
+
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/")
+    async def root_index(request: Request):
+        accept = request.headers.get("accept", "")
+        if "application/json" in accept and "text/html" not in accept:
+            return JSONResponse(health_check())
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        if full_path.startswith("api"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        file_path = os.path.join(frontend_dist, full_path)
+        if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+else:
+    @app.get("/")
+    def health_root():
+        return health_check()
 
